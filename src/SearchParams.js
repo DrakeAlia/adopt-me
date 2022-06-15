@@ -1,26 +1,14 @@
-// Now we want to make it so you can modify what 
-// your search parameters are. Let's make a new 
-// route called SearchParams.js and have it accept 
-// these search parameters.
-
-// A hook called such (in my head) because it's a 
-// hook that gets caught every time the render function gets called. 
-// Because the hooks get called in the same order every 
-// single time, they'll always point to the same piece of state. Because of that they can be 
-// stateful: you can keep pieces of mutable state using hooks and then modify them later using 
-// their provided updater functions.
-
-// An absolutely key concept for you to grasp is hooks 
-// rely on this strict ordering.As such, do not put hooks 
-// inside if statements or loops.If you do, you'll have 
-// insane bugs that involve useState returning the wrong state. 
-// If you see useState returning the wrong piece of state, 
-// this is likely what you did.
 import { useState } from "react"
+
+const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
+
+
 
 const SearchParams = () => {
     const [location, setLocation] = useState("");
     const [animal, setAnimal] = useState("");
+    const [breed, setBreed] = useState("");
+    const breeds = ["poodle", "bichon"];
 
     return (
         <div className="search-params">
@@ -33,6 +21,48 @@ const SearchParams = () => {
                         placeholder="Location"
                         onChange={(e) => setLocation(e.target.value)}
                     />
+                </label>
+                <label htmlFor="animal">
+                    Animal
+                    <select
+                        id="animal"
+                        value={animal}
+                        onChange={(e) => {
+                            setAnimal(e.target.value);
+                            setBreed("");
+                        }}
+                        onBlur={(e) => {
+                            setAnimal(e.target.value);
+                            setBreed("");
+                        }}
+                    >
+                        <option />
+                        {ANIMALS.map((animal) => (
+                            <option key={animal} value={animal}>
+                                {animal}
+                            </option>
+                        ))}
+                    </select>
+                </label>
+                <label htmlFor="breed">
+                    Breed
+                    <select
+                        id="breed"
+                        value={breed}
+                        onChange={(e) => {
+                            setBreed(e.target.value);
+                        }}
+                        onBlur={(e) => {
+                            setBreed(e.target.value);
+                        }}
+                    >
+                        <option />
+                        {breeds.map((breed) => (
+                            <option key={breed} value={breed}>
+                                {breed}
+                            </option>
+                        ))}
+                    </select>
                 </label>
                 <button>Submit</button>
             </form>
