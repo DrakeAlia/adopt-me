@@ -28,7 +28,12 @@ const SearchParams = () => {
 
     return (
         <div className="search-params">
-            <form>
+            <form
+                onSubmit={e => {
+                   e.preventDefault();
+                   requestPets();
+                }}
+            >
                 <label htmlFor="location">
                     Location
                     <input
@@ -89,8 +94,7 @@ const SearchParams = () => {
                     breed={pet.breed}
                     key={pet.id}
                 />
-            ))
-            }
+            ))}
         </div>
     );
 };
