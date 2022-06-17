@@ -1,16 +1,15 @@
-import { useState, useEffect } from "react";
-import useBreedList from "./useBreedList";
+import { useEffect, useState } from "react";
 import Results from "./Results";
+import useBreedList from "./useBreedList";
 
 const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
 
 const SearchParams = () => {
-    const [location, setLocation] = useState("");
-    const [animal, setAnimal] = useState("");
-    const [breed, setBreed] = useState("");
-    const [breeds] = useBreedList(animal);
-
+    const [location, updateLocation] = useState("");
+    const [animal, updateAnimal] = useState("");
+    const [breed, updateBreed] = useState("");
     const [pets, setPets] = useState([]);
+    const [breeds] = useBreedList(animal);
 
     useEffect(() => {
         requestPets();
@@ -25,11 +24,10 @@ const SearchParams = () => {
         setPets(json.pets);
     }
 
-
     return (
         <div className="search-params">
             <form
-                onSubmit={e => {
+                onSubmit={(e) => {
                     e.preventDefault();
                     requestPets();
                 }}
@@ -40,7 +38,7 @@ const SearchParams = () => {
                         id="location"
                         value={location}
                         placeholder="Location"
-                        onChange={(e) => setLocation(e.target.value)}
+                        onChange={(e) => updateLocation(e.target.value)}
                     />
                 </label>
                 <label htmlFor="animal">
@@ -49,12 +47,12 @@ const SearchParams = () => {
                         id="animal"
                         value={animal}
                         onChange={(e) => {
-                            setAnimal(e.target.value);
-                            setBreed("");
+                            updateAnimal(e.target.value);
+                            updateBreed("");
                         }}
                         onBlur={(e) => {
-                            setAnimal(e.target.value);
-                            setBreed("");
+                            updateAnimal(e.target.value);
+                            updateBreed("");
                         }}
                     >
                         <option />
@@ -68,14 +66,11 @@ const SearchParams = () => {
                 <label htmlFor="breed">
                     Breed
                     <select
+                        disabled={!breeds.length}
                         id="breed"
                         value={breed}
-                        onChange={(e) => {
-                            setBreed(e.target.value);
-                        }}
-                        onBlur={(e) => {
-                            setBreed(e.target.value);
-                        }}
+                        onChange={(e) => updateBreed(e.target.value)}
+                        onBlur={(e) => updateBreed(e.target.value)}
                     >
                         <option />
                         {breeds.map((breed) => (
